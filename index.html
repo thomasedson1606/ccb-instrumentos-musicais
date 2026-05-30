@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instrumentos da Orquestra CCB</title>
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --accent-color: #d69e2e;
+            --bg-color: #f7fafc;
+            --card-bg: #ffffff;
+            --text-color: #2d3748;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            padding: 25px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 { margin: 0; font-size: 24px; font-weight: 700; }
+        p.subtitle { margin: 8px 0 0 0; font-size: 15px; opacity: 0.9; }
+
+        .main-content { flex: 1; }
+
+        .family-section { margin-bottom: 40px; }
+
+        .family-title {
+            font-size: 20px;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 6px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .grid-instruments {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+        }
+
+        .instrument-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            border-bottom: 1px solid #edf2f7;
+            padding-bottom: 6px;
+        }
+
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-video {
+            display: block;
+            text-align: center;
+            background-color: #e53e3e;
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-video:hover { background-color: #c53030; }
+        .btn-video:active { transform: scale(0.98); }
+
+        .btn-video:nth-child(even) { background-color: #2b6cb0; }
+        .btn-video:nth-child(even):hover { background-color: #2b559a; }
+        .btn-video:nth-child(3n) { background-color: #4a5568; }
+        .btn-video:nth-child(3n):hover { background-color: #2d3748; }
+        .btn-video:nth-child(4n) { background-color: #2f855a; }
+        .btn-video:nth-child(4n):hover { background-color: #22543d; }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #718096;
+            border-top: 1px solid #e2e8f0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Instrumentos da Orquestra CCB</h1>
+        <p class="subtitle">Clique nos botões abaixo para ouvir a demonstração de cada instrumento no YouTube</p>
+    </header>
+
+    <div class="main-content">
+
+        <!-- ========== CORDAS ========== -->
+        <section class="family-section">
+            <div class="family-title">Cordas</div>
+            <div class="grid-instruments">
+
+                <div class="card">
+                    <div class="instrument-name">Violino</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/watch?v=coCcKbD4teQ" target="_blank" class="btn-video">Ouvir Som 1</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Viola</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/watch?v=Dwk8EOT5Etg" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/watch?v=1UbySbiIDS8" target="_blank" class="btn-video">Ouvir Som 2</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Violoncelo</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/watch?v=yNj4XBqOz_s" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/shorts/3uQpxY2dPKs" target="_blank" class="btn-video">Ouvir Som 2</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========== MADEIRAS ========== -->
+        <section class="family-section">
+            <div class="family-title">Madeiras</div>
+            <div class="grid-instruments">
+
+                <div class="card">
+                    <div class="instrument-name">Flauta</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/OxkKc7Dl-xI" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/shorts/TYrer0ycorg" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/shorts/mXotOzbIcis" target="_blank" class="btn-video">Ouvir Som 3</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Clarinete</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/vb7IWDdFHhM" target="_blank" class="btn-video">Ouvir Som 1</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Oboé</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/T8lWkvaqnkY" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/shorts/GWo7T972NQ4" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/shorts/OMHG5Q_OsEU" target="_blank" class="btn-video">Ouvir Som 3</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Corne Inglês</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/gILSt72nrdo" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/shorts/oSpS431BUFo" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/shorts/acdRobJvS1w" target="_blank" class="btn-video">Ouvir Som 3</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Fagote</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/watch?v=INZVXzXCjO0" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/shorts/pMCy4s5ZVEw" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/shorts/Bm24KlbLxrA" target="_blank" class="btn-video">Ouvir Som 3</a>
+                        <a href="https://www.youtube.com/shorts/10SbTn3BGgU" target="_blank" class="btn-video">Ouvir Som 4</a>
+                        <a href="https://www.youtube.com/watch?v=qbhO76tO5xs" target="_blank" class="btn-video">Ouvir Som 5</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Clarone Alto</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/gJAmp-1g9dE" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/shorts/w8uUJx4eO6s" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/watch?v=qFBKZKnarsw" target="_blank" class="btn-video">Ouvir Som 3</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Clarone Baixo</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/BDfOBDf-IGo" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/watch?v=F5qL3BbTCAE" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/shorts/GX_tODr7ods" target="_blank" class="btn-video">Ouvir Som 3</a>
+                        <a href="https://www.youtube.com/watch?v=4NyB-izzrUU" target="_blank" class="btn-video">Ouvir Som 4</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Sax Soprano</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/MQRWzO4OIM0" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/watch?v=Uo3rJCLozHw" target="_blank" class="btn-video">Ouvir Som 2</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Sax Alto</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/UrYXASa5mag" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/watch?v=JOsQ6Iba_Nc" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/shorts/mCmLgCuqNog" target="_blank" class="btn-video">Ouvir Som 3</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Sax Tenor</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/pSkBV1EyLaQ" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/shorts/Fsw6cPxowjM" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/watch?v=Un0WTNqf9ks" target="_blank" class="btn-video">Ouvir Som 3</a>
+                        <a href="https://www.youtube.com/watch?v=bOauu9uUtfY" target="_blank" class="btn-video">Ouvir Som 4</a>
+                        <a href="https://www.youtube.com/watch?v=u3VCmak78Bc" target="_blank" class="btn-video">Ouvir Som 5</a>
+                        <a href="https://www.youtube.com/watch?v=x3nKPJXwRyU" target="_blank" class="btn-video">Ouvir Som 6</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Sax Barítono</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/J-2okTAJcgU" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/shorts/OjtVVegSfOE" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/shorts/jt6e6UEKvFs" target="_blank" class="btn-video">Ouvir Som 3</a>
+                        <a href="https://www.youtube.com/watch?v=p3glfNNvEIs" target="_blank" class="btn-video">Ouvir Som 4</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========== METAIS ========== -->
+        <section class="family-section">
+            <div class="family-title">Metais</div>
+            <div class="grid-instruments">
+
+                <div class="card">
+                    <div class="instrument-name">Trompete</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/6pk3vT85qpg" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/watch?v=WSFRvc6_VNM" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/watch?v=NUbdyul5XRY" target="_blank" class="btn-video">Ouvir Som 3</a>
+                        <a href="https://www.youtube.com/watch?v=uUeQ2PxMPLg" target="_blank" class="btn-video">Ouvir Som 4</a>
+                        <a href="https://www.youtube.com/watch?v=GkjnJkrLFdI" target="_blank" class="btn-video">Ouvir Som 5</a>
+                        <a href="https://www.youtube.com/watch?v=MA-1qTBbpIk" target="_blank" class="btn-video">Ouvir Som 6</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Cornet</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/WSvph7EC5Dw" target="_blank" class="btn-video">Ouvir Som 1</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Flugelhorn</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/InByL8vJxuY" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/shorts/5BpySX113K0" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/watch?v=qmp4QKjoSBo" target="_blank" class="btn-video">Ouvir Som 3</a>
+                        <a href="https://www.youtube.com/shorts/VVdfZ9X2xe0" target="_blank" class="btn-video">Ouvir Som 4</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Trompa</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/watch?v=jG0DVSfk8-g" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/shorts/0qcqyGWju78" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/shorts/eiVmQGAKoIU" target="_blank" class="btn-video">Ouvir Som 3</a>
+                        <a href="https://www.youtube.com/shorts/d71w0iKer6g" target="_blank" class="btn-video">Ouvir Som 4</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Trombone</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/stIHRgL4-e0" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/shorts/HF6CG8T7_p0" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/shorts/uRz1weMTqxQ" target="_blank" class="btn-video">Ouvir Som 3</a>
+                        <a href="https://www.youtube.com/shorts/UfqN0Iz2jJE" target="_blank" class="btn-video">Ouvir Som 4</a>
+                        <a href="https://www.youtube.com/shorts/1mqf9vmbU9c" target="_blank" class="btn-video">Ouvir Som 5</a>
+                        <a href="https://www.youtube.com/shorts/EzYdas4vifc" target="_blank" class="btn-video">Ouvir Som 6</a>
+                        <a href="https://www.youtube.com/watch?v=ImqPgCU5X-I" target="_blank" class="btn-video">Ouvir Som 7</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Trombonito</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/V4Mmv5NNMb4" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/shorts/sEyjaKN0f1s" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/shorts/6B11N3rv9Ms" target="_blank" class="btn-video">Ouvir Som 3</a>
+                        <a href="https://www.youtube.com/watch?v=BjyTrcmYy04" target="_blank" class="btn-video">Ouvir Som 4</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Barítono</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/PltDFcEJ0dA" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/watch?v=ROPPXutyITs" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/watch?v=eO9Y_kF6aqA" target="_blank" class="btn-video">Ouvir Som 3</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Euphonium</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/shorts/a9fUoiFMAlw" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/shorts/yvqPJeiPbzg" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/watch?v=HrJ9dBOuCqs" target="_blank" class="btn-video">Ouvir Som 3</a>
+                        <a href="https://www.youtube.com/watch?v=FJi727yrVv4" target="_blank" class="btn-video">Ouvir Som 4</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="instrument-name">Tuba</div>
+                    <div class="links-container">
+                        <a href="https://www.youtube.com/watch?v=R29iwNXNu68" target="_blank" class="btn-video">Ouvir Som 1</a>
+                        <a href="https://www.youtube.com/watch?v=SnYK7kLtdCA" target="_blank" class="btn-video">Ouvir Som 2</a>
+                        <a href="https://www.youtube.com/shorts/COeYnwRfAoE" target="_blank" class="btn-video">Ouvir Som 3</a>
+                        <a href="https://www.youtube.com/watch?v=8tTfnUZ50Gs" target="_blank" class="btn-video">Ouvir Som 4</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        Desenvolvido por Thomas Edson para auxiliar os alunos de música da Congregação Cristã no Brasil.
+    </footer>
+
+</body>
+</html>
