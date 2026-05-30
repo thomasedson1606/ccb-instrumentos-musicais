@@ -29,7 +29,7 @@
         header {
             text-align: center;
             padding: 25px 15px;
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, #1a365d, #2a4a7f);
             color: white;
             border-radius: 8px;
             margin-bottom: 30px;
@@ -56,41 +56,123 @@
 
         .grid-instruments {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
         }
 
         .card {
             background: var(--card-bg);
             border-radius: 8px;
-            border-left: 5px solid var(--primary-color);
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            cursor: pointer;
+            overflow: hidden;
             transition: transform 0.2s, box-shadow 0.2s;
-            padding: 18px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
+            border: 2px solid transparent;
         }
 
         .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+            border-color: var(--accent-color);
         }
 
-        .instrument-name {
-            font-size: 16px;
+        .card-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+            background: #edf2f7;
+        }
+
+        .card-name {
+            padding: 10px 12px;
+            font-size: 14px;
             font-weight: 700;
-            margin-bottom: 12px;
             color: var(--primary-color);
             text-transform: uppercase;
-            border-bottom: 1px solid #edf2f7;
-            padding-bottom: 6px;
+            letter-spacing: 0.5px;
+            text-align: center;
+            border-top: 1px solid #edf2f7;
         }
 
-        .links-container {
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalIn 0.25s ease-out;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.92) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .modal-header img {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 18px;
+            flex: 1;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .modal-close:hover { opacity: 1; }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-body .links-container {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .btn-video {
@@ -99,18 +181,18 @@
             background-color: #e53e3e;
             color: white;
             text-decoration: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            font-size: 13px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 14px;
             font-weight: 600;
             transition: background 0.2s, transform 0.1s;
         }
 
-        .btn-video:hover { background-color: #c53030; }
+        .btn-video:hover { background-color: #c53030; transform: scale(1.02); }
         .btn-video:active { transform: scale(0.98); }
 
         .btn-video:nth-child(even) { background-color: #2b6cb0; }
-        .btn-video:nth-child(even):hover { background-color: #2b559a; }
+        .btn-video:nth-child(even):hover { background-color: #1a4f8a; }
         .btn-video:nth-child(3n) { background-color: #4a5568; }
         .btn-video:nth-child(3n):hover { background-color: #2d3748; }
         .btn-video:nth-child(4n) { background-color: #2f855a; }
@@ -131,7 +213,7 @@
 
     <header>
         <h1>Instrumentos da Orquestra CCB</h1>
-        <p class="subtitle">Clique nos botões abaixo para ouvir a demonstração de cada instrumento no YouTube</p>
+        <p class="subtitle">Clique no instrumento para ver os vídeos disponíveis</p>
     </header>
 
     <div class="main-content">
@@ -141,27 +223,27 @@
             <div class="family-title">Cordas</div>
             <div class="grid-instruments">
 
-                <div class="card">
-                    <div class="instrument-name">Violino</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/watch?v=coCcKbD4teQ" target="_blank" class="btn-video">Ouvir Som 1</a>
-                    </div>
+                <div class="card" onclick='openModal("Violino", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/watch?v=coCcKbD4teQ"}
+                ], "images/violino.jpeg")'>
+                    <img class="card-img" src="images/violino.jpeg" alt="Violino" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Violino</text></svg>'">
+                    <div class="card-name">Violino</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Viola</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/watch?v=Dwk8EOT5Etg" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/watch?v=1UbySbiIDS8" target="_blank" class="btn-video">Ouvir Som 2</a>
-                    </div>
+                <div class="card" onclick='openModal("Viola", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/watch?v=Dwk8EOT5Etg"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/watch?v=1UbySbiIDS8"}
+                ], "images/viola.jpeg")'>
+                    <img class="card-img" src="images/viola.jpeg" alt="Viola" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Viola</text></svg>'">
+                    <div class="card-name">Viola</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Violoncelo</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/watch?v=yNj4XBqOz_s" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/shorts/3uQpxY2dPKs" target="_blank" class="btn-video">Ouvir Som 2</a>
-                    </div>
+                <div class="card" onclick='openModal("Violoncelo", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/watch?v=yNj4XBqOz_s"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/shorts/3uQpxY2dPKs"}
+                ], "images/violoncelo.jpeg")'>
+                    <img class="card-img" src="images/violoncelo.jpeg" alt="Violoncelo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Violoncelo</text></svg>'">
+                    <div class="card-name">Violoncelo</div>
                 </div>
 
             </div>
@@ -172,107 +254,107 @@
             <div class="family-title">Madeiras</div>
             <div class="grid-instruments">
 
-                <div class="card">
-                    <div class="instrument-name">Flauta</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/OxkKc7Dl-xI" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/shorts/TYrer0ycorg" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/shorts/mXotOzbIcis" target="_blank" class="btn-video">Ouvir Som 3</a>
-                    </div>
+                <div class="card" onclick='openModal("Flauta", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/OxkKc7Dl-xI"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/shorts/TYrer0ycorg"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/shorts/mXotOzbIcis"}
+                ], "images/flauta.jpeg")'>
+                    <img class="card-img" src="images/flauta.jpeg" alt="Flauta" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Flauta</text></svg>'">
+                    <div class="card-name">Flauta</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Clarinete</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/vb7IWDdFHhM" target="_blank" class="btn-video">Ouvir Som 1</a>
-                    </div>
+                <div class="card" onclick='openModal("Clarinete", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/vb7IWDdFHhM"}
+                ], "images/clarinete.jpeg")'>
+                    <img class="card-img" src="images/clarinete.jpeg" alt="Clarinete" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Clarinete</text></svg>'">
+                    <div class="card-name">Clarinete</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Oboé</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/T8lWkvaqnkY" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/shorts/GWo7T972NQ4" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/shorts/OMHG5Q_OsEU" target="_blank" class="btn-video">Ouvir Som 3</a>
-                    </div>
+                <div class="card" onclick='openModal("Oboé", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/T8lWkvaqnkY"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/shorts/GWo7T972NQ4"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/shorts/OMHG5Q_OsEU"}
+                ], "images/oboe.jpeg")'>
+                    <img class="card-img" src="images/oboe.jpeg" alt="Oboé" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Oboé</text></svg>'">
+                    <div class="card-name">Oboé</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Corne Inglês</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/gILSt72nrdo" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/shorts/oSpS431BUFo" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/shorts/acdRobJvS1w" target="_blank" class="btn-video">Ouvir Som 3</a>
-                    </div>
+                <div class="card" onclick='openModal("Corne Inglês", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/gILSt72nrdo"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/shorts/oSpS431BUFo"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/shorts/acdRobJvS1w"}
+                ], "images/corne ingles.jpeg")'>
+                    <img class="card-img" src="images/corne%20ingles.jpeg" alt="Corne Inglês" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Corne Inglês</text></svg>'">
+                    <div class="card-name">Corne Inglês</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Fagote</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/watch?v=INZVXzXCjO0" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/shorts/pMCy4s5ZVEw" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/shorts/Bm24KlbLxrA" target="_blank" class="btn-video">Ouvir Som 3</a>
-                        <a href="https://www.youtube.com/shorts/10SbTn3BGgU" target="_blank" class="btn-video">Ouvir Som 4</a>
-                        <a href="https://www.youtube.com/watch?v=qbhO76tO5xs" target="_blank" class="btn-video">Ouvir Som 5</a>
-                    </div>
+                <div class="card" onclick='openModal("Fagote", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/watch?v=INZVXzXCjO0"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/shorts/pMCy4s5ZVEw"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/shorts/Bm24KlbLxrA"},
+                    {label:"Ouvir Som 4", url:"https://www.youtube.com/shorts/10SbTn3BGgU"},
+                    {label:"Ouvir Som 5", url:"https://www.youtube.com/watch?v=qbhO76tO5xs"}
+                ], "images/fagote.jpeg")'>
+                    <img class="card-img" src="images/fagote.jpeg" alt="Fagote" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Fagote</text></svg>'">
+                    <div class="card-name">Fagote</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Clarone Alto</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/gJAmp-1g9dE" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/shorts/w8uUJx4eO6s" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/watch?v=qFBKZKnarsw" target="_blank" class="btn-video">Ouvir Som 3</a>
-                    </div>
+                <div class="card" onclick='openModal("Clarone Alto", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/gJAmp-1g9dE"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/shorts/w8uUJx4eO6s"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/watch?v=qFBKZKnarsw"}
+                ], "images/clarone alto.jpeg")'>
+                    <img class="card-img" src="images/clarone%20alto.jpeg" alt="Clarone Alto" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Clarone Alto</text></svg>'">
+                    <div class="card-name">Clarone Alto</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Clarone Baixo</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/BDfOBDf-IGo" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/watch?v=F5qL3BbTCAE" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/shorts/GX_tODr7ods" target="_blank" class="btn-video">Ouvir Som 3</a>
-                        <a href="https://www.youtube.com/watch?v=4NyB-izzrUU" target="_blank" class="btn-video">Ouvir Som 4</a>
-                    </div>
+                <div class="card" onclick='openModal("Clarone Baixo", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/BDfOBDf-IGo"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/watch?v=F5qL3BbTCAE"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/shorts/GX_tODr7ods"},
+                    {label:"Ouvir Som 4", url:"https://www.youtube.com/watch?v=4NyB-izzrUU"}
+                ], "images/clarone baixo.jpeg")'>
+                    <img class="card-img" src="images/clarone%20baixo.jpeg" alt="Clarone Baixo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Clarone Baixo</text></svg>'">
+                    <div class="card-name">Clarone Baixo</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Sax Soprano</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/MQRWzO4OIM0" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/watch?v=Uo3rJCLozHw" target="_blank" class="btn-video">Ouvir Som 2</a>
-                    </div>
+                <div class="card" onclick='openModal("Sax Soprano", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/MQRWzO4OIM0"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/watch?v=Uo3rJCLozHw"}
+                ], "images/sax soprano.jpeg")'>
+                    <img class="card-img" src="images/sax%20soprano.jpeg" alt="Sax Soprano" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Sax Soprano</text></svg>'">
+                    <div class="card-name">Sax Soprano</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Sax Alto</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/UrYXASa5mag" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/watch?v=JOsQ6Iba_Nc" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/shorts/mCmLgCuqNog" target="_blank" class="btn-video">Ouvir Som 3</a>
-                    </div>
+                <div class="card" onclick='openModal("Sax Alto", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/UrYXASa5mag"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/watch?v=JOsQ6Iba_Nc"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/shorts/mCmLgCuqNog"}
+                ], "images/sax alto.jpeg")'>
+                    <img class="card-img" src="images/sax%20alto.jpeg" alt="Sax Alto" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Sax Alto</text></svg>'">
+                    <div class="card-name">Sax Alto</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Sax Tenor</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/pSkBV1EyLaQ" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/shorts/Fsw6cPxowjM" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/watch?v=Un0WTNqf9ks" target="_blank" class="btn-video">Ouvir Som 3</a>
-                        <a href="https://www.youtube.com/watch?v=bOauu9uUtfY" target="_blank" class="btn-video">Ouvir Som 4</a>
-                        <a href="https://www.youtube.com/watch?v=u3VCmak78Bc" target="_blank" class="btn-video">Ouvir Som 5</a>
-                        <a href="https://www.youtube.com/watch?v=x3nKPJXwRyU" target="_blank" class="btn-video">Ouvir Som 6</a>
-                    </div>
+                <div class="card" onclick='openModal("Sax Tenor", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/pSkBV1EyLaQ"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/shorts/Fsw6cPxowjM"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/watch?v=Un0WTNqf9ks"},
+                    {label:"Ouvir Som 4", url:"https://www.youtube.com/watch?v=bOauu9uUtfY"},
+                    {label:"Ouvir Som 5", url:"https://www.youtube.com/watch?v=u3VCmak78Bc"},
+                    {label:"Ouvir Som 6", url:"https://www.youtube.com/watch?v=x3nKPJXwRyU"}
+                ], "images/sax tenor.jpeg")'>
+                    <img class="card-img" src="images/sax%20tenor.jpeg" alt="Sax Tenor" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Sax Tenor</text></svg>'">
+                    <div class="card-name">Sax Tenor</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Sax Barítono</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/J-2okTAJcgU" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/shorts/OjtVVegSfOE" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/shorts/jt6e6UEKvFs" target="_blank" class="btn-video">Ouvir Som 3</a>
-                        <a href="https://www.youtube.com/watch?v=p3glfNNvEIs" target="_blank" class="btn-video">Ouvir Som 4</a>
-                    </div>
+                <div class="card" onclick='openModal("Sax Barítono", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/J-2okTAJcgU"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/shorts/OjtVVegSfOE"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/shorts/jt6e6UEKvFs"},
+                    {label:"Ouvir Som 4", url:"https://www.youtube.com/watch?v=p3glfNNvEIs"}
+                ], "images/sax baritono.jpeg")'>
+                    <img class="card-img" src="images/sax%20baritono.jpeg" alt="Sax Barítono" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Sax Barítono</text></svg>'">
+                    <div class="card-name">Sax Barítono</div>
                 </div>
 
             </div>
@@ -283,95 +365,95 @@
             <div class="family-title">Metais</div>
             <div class="grid-instruments">
 
-                <div class="card">
-                    <div class="instrument-name">Trompete</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/6pk3vT85qpg" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/watch?v=WSFRvc6_VNM" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/watch?v=NUbdyul5XRY" target="_blank" class="btn-video">Ouvir Som 3</a>
-                        <a href="https://www.youtube.com/watch?v=uUeQ2PxMPLg" target="_blank" class="btn-video">Ouvir Som 4</a>
-                        <a href="https://www.youtube.com/watch?v=GkjnJkrLFdI" target="_blank" class="btn-video">Ouvir Som 5</a>
-                        <a href="https://www.youtube.com/watch?v=MA-1qTBbpIk" target="_blank" class="btn-video">Ouvir Som 6</a>
-                    </div>
+                <div class="card" onclick='openModal("Trompete", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/6pk3vT85qpg"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/watch?v=WSFRvc6_VNM"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/watch?v=NUbdyul5XRY"},
+                    {label:"Ouvir Som 4", url:"https://www.youtube.com/watch?v=uUeQ2PxMPLg"},
+                    {label:"Ouvir Som 5", url:"https://www.youtube.com/watch?v=GkjnJkrLFdI"},
+                    {label:"Ouvir Som 6", url:"https://www.youtube.com/watch?v=MA-1qTBbpIk"}
+                ], "images/trompete.jpeg")'>
+                    <img class="card-img" src="images/trompete.jpeg" alt="Trompete" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Trompete</text></svg>'">
+                    <div class="card-name">Trompete</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Cornet</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/WSvph7EC5Dw" target="_blank" class="btn-video">Ouvir Som 1</a>
-                    </div>
+                <div class="card" onclick='openModal("Cornet", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/WSvph7EC5Dw"}
+                ], "images/cornet.jpeg")'>
+                    <img class="card-img" src="images/cornet.jpeg" alt="Cornet" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Cornet</text></svg>'">
+                    <div class="card-name">Cornet</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Flugelhorn</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/InByL8vJxuY" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/shorts/5BpySX113K0" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/watch?v=qmp4QKjoSBo" target="_blank" class="btn-video">Ouvir Som 3</a>
-                        <a href="https://www.youtube.com/shorts/VVdfZ9X2xe0" target="_blank" class="btn-video">Ouvir Som 4</a>
-                    </div>
+                <div class="card" onclick='openModal("Flugelhorn", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/InByL8vJxuY"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/shorts/5BpySX113K0"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/watch?v=qmp4QKjoSBo"},
+                    {label:"Ouvir Som 4", url:"https://www.youtube.com/shorts/VVdfZ9X2xe0"}
+                ], "images/flugelhorn.jpeg")'>
+                    <img class="card-img" src="images/flugelhorn.jpeg" alt="Flugelhorn" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Flugelhorn</text></svg>'">
+                    <div class="card-name">Flugelhorn</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Trompa</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/watch?v=jG0DVSfk8-g" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/shorts/0qcqyGWju78" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/shorts/eiVmQGAKoIU" target="_blank" class="btn-video">Ouvir Som 3</a>
-                        <a href="https://www.youtube.com/shorts/d71w0iKer6g" target="_blank" class="btn-video">Ouvir Som 4</a>
-                    </div>
+                <div class="card" onclick='openModal("Trompa", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/watch?v=jG0DVSfk8-g"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/shorts/0qcqyGWju78"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/shorts/eiVmQGAKoIU"},
+                    {label:"Ouvir Som 4", url:"https://www.youtube.com/shorts/d71w0iKer6g"}
+                ], "images/trompa.jpeg")'>
+                    <img class="card-img" src="images/trompa.jpeg" alt="Trompa" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Trompa</text></svg>'">
+                    <div class="card-name">Trompa</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Trombone</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/stIHRgL4-e0" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/shorts/HF6CG8T7_p0" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/shorts/uRz1weMTqxQ" target="_blank" class="btn-video">Ouvir Som 3</a>
-                        <a href="https://www.youtube.com/shorts/UfqN0Iz2jJE" target="_blank" class="btn-video">Ouvir Som 4</a>
-                        <a href="https://www.youtube.com/shorts/1mqf9vmbU9c" target="_blank" class="btn-video">Ouvir Som 5</a>
-                        <a href="https://www.youtube.com/shorts/EzYdas4vifc" target="_blank" class="btn-video">Ouvir Som 6</a>
-                        <a href="https://www.youtube.com/watch?v=ImqPgCU5X-I" target="_blank" class="btn-video">Ouvir Som 7</a>
-                    </div>
+                <div class="card" onclick='openModal("Trombone", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/stIHRgL4-e0"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/shorts/HF6CG8T7_p0"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/shorts/uRz1weMTqxQ"},
+                    {label:"Ouvir Som 4", url:"https://www.youtube.com/shorts/UfqN0Iz2jJE"},
+                    {label:"Ouvir Som 5", url:"https://www.youtube.com/shorts/1mqf9vmbU9c"},
+                    {label:"Ouvir Som 6", url:"https://www.youtube.com/shorts/EzYdas4vifc"},
+                    {label:"Ouvir Som 7", url:"https://www.youtube.com/watch?v=ImqPgCU5X-I"}
+                ], "images/trombone.jpeg")'>
+                    <img class="card-img" src="images/trombone.jpeg" alt="Trombone" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Trombone</text></svg>'">
+                    <div class="card-name">Trombone</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Trombonito</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/V4Mmv5NNMb4" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/shorts/sEyjaKN0f1s" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/shorts/6B11N3rv9Ms" target="_blank" class="btn-video">Ouvir Som 3</a>
-                        <a href="https://www.youtube.com/watch?v=BjyTrcmYy04" target="_blank" class="btn-video">Ouvir Som 4</a>
-                    </div>
+                <div class="card" onclick='openModal("Trombonito", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/V4Mmv5NNMb4"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/shorts/sEyjaKN0f1s"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/shorts/6B11N3rv9Ms"},
+                    {label:"Ouvir Som 4", url:"https://www.youtube.com/watch?v=BjyTrcmYy04"}
+                ], "images/trombonito.jpeg")'>
+                    <img class="card-img" src="images/trombonito.jpeg" alt="Trombonito" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Trombonito</text></svg>'">
+                    <div class="card-name">Trombonito</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Barítono</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/PltDFcEJ0dA" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/watch?v=ROPPXutyITs" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/watch?v=eO9Y_kF6aqA" target="_blank" class="btn-video">Ouvir Som 3</a>
-                    </div>
+                <div class="card" onclick='openModal("Barítono", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/PltDFcEJ0dA"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/watch?v=ROPPXutyITs"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/watch?v=eO9Y_kF6aqA"}
+                ], "images/baritono.jpeg")'>
+                    <img class="card-img" src="images/baritono.jpeg" alt="Barítono" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Barítono</text></svg>'">
+                    <div class="card-name">Barítono</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Euphonium</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/shorts/a9fUoiFMAlw" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/shorts/yvqPJeiPbzg" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/watch?v=HrJ9dBOuCqs" target="_blank" class="btn-video">Ouvir Som 3</a>
-                        <a href="https://www.youtube.com/watch?v=FJi727yrVv4" target="_blank" class="btn-video">Ouvir Som 4</a>
-                    </div>
+                <div class="card" onclick='openModal("Euphonium", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/shorts/a9fUoiFMAlw"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/shorts/yvqPJeiPbzg"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/watch?v=HrJ9dBOuCqs"},
+                    {label:"Ouvir Som 4", url:"https://www.youtube.com/watch?v=FJi727yrVv4"}
+                ], "images/euphonium.jpeg")'>
+                    <img class="card-img" src="images/euphonium.jpeg" alt="Euphonium" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Euphonium</text></svg>'">
+                    <div class="card-name">Euphonium</div>
                 </div>
 
-                <div class="card">
-                    <div class="instrument-name">Tuba</div>
-                    <div class="links-container">
-                        <a href="https://www.youtube.com/watch?v=R29iwNXNu68" target="_blank" class="btn-video">Ouvir Som 1</a>
-                        <a href="https://www.youtube.com/watch?v=SnYK7kLtdCA" target="_blank" class="btn-video">Ouvir Som 2</a>
-                        <a href="https://www.youtube.com/shorts/COeYnwRfAoE" target="_blank" class="btn-video">Ouvir Som 3</a>
-                        <a href="https://www.youtube.com/watch?v=8tTfnUZ50Gs" target="_blank" class="btn-video">Ouvir Som 4</a>
-                    </div>
+                <div class="card" onclick='openModal("Tuba", [
+                    {label:"Ouvir Som 1", url:"https://www.youtube.com/watch?v=R29iwNXNu68"},
+                    {label:"Ouvir Som 2", url:"https://www.youtube.com/watch?v=SnYK7kLtdCA"},
+                    {label:"Ouvir Som 3", url:"https://www.youtube.com/shorts/COeYnwRfAoE"},
+                    {label:"Ouvir Som 4", url:"https://www.youtube.com/watch?v=8tTfnUZ50Gs"}
+                ], "images/tuba.jpeg")'>
+                    <img class="card-img" src="images/tuba.jpeg" alt="Tuba" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23edf2f7%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23a0aec0%22 font-size=%2210%22>Tuba</text></svg>'">
+                    <div class="card-name">Tuba</div>
                 </div>
 
             </div>
@@ -379,9 +461,56 @@
 
     </div>
 
+    <!-- ===== MODAL ===== -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+        <div class="modal" id="modalContent" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <img id="modalImg" src="" alt="">
+                <h2 id="modalTitle">Instrumento</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="links-container" id="modalLinks"></div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         Desenvolvido por Thomas Edson para auxiliar os alunos de música da Congregação Cristã no Brasil.
     </footer>
+
+    <script>
+        function openModal(name, videos, imgSrc) {
+            document.getElementById('modalTitle').textContent = name;
+            document.getElementById('modalImg').src = imgSrc;
+            document.getElementById('modalImg').onerror = function() {
+                this.style.display = 'none';
+            };
+
+            const container = document.getElementById('modalLinks');
+            container.innerHTML = '';
+            videos.forEach(function(v) {
+                const a = document.createElement('a');
+                a.href = v.url;
+                a.target = '_blank';
+                a.className = 'btn-video';
+                a.textContent = v.label;
+                container.appendChild(a);
+            });
+
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
 
 </body>
 </html>
